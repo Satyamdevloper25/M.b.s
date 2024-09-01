@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Attendance Management</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f4f4f9, #dcdcdc);
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 2px solid #007BFF;
+            background: #007BFF;
+            color: #fff;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        header button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #28a745;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        header button:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        .form-container,
+        .table-container {
+            margin: 20px 0;
+        }
+
+        form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        form h2 {
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: #007BFF;
+        }
+
+        form label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: 500;
+        }
+
+        form input,
+        form select,
+        form button {
+            width: calc(100% - 22px);
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        form input:focus,
+        form select:focus,
+        form button:hover {
+            border-color: #007BFF;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+        }
+
+        form button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        .table-container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-container th,
+        .table-container td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table-container th {
+            background-color: #007BFF;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .table-container tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table-container tr:hover {
+            background-color: #e2e6ea;
+            cursor: pointer;
+        }
+
+        .table-container td button {
+            padding: 6px 12px;
+            border: none;
+            background-color: #dc3545;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .table-container td button:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 20px;
+            }
+
+            header button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+
+            form input,
+            form select,
+            form button {
+                font-size: 14px;
+            }
+
+            .table-container th,
+            .table-container td {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Teacher Attendance Management</h1>
+            <button onclick="showHistory()">Show History</button>
+        </header>
+        <main>
+            <div class="form-container">
+                <h2>Mark Attendance</h2>
+                <form id="attendanceForm">
+                    <label for="teacherName">Teacher Name</label>
+                    <input type="text" id="teacherName" placeholder="Enter teacher's name" required>
+
+                    <label for="attendanceDate">Date</label>
+                    <input type="date" id="attendanceDate" required>
+
+                    <label for="status">Status</label>
+                    <select id="status" required>
+                        <option value="Present">Present</option>
+                        <option value="Absent">Absent</option>
+                    </select>
+
+                    <button type="submit">Mark Attendance</button>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <h2>Attendance History</h2>
+                <table id="attendanceTable">
+                    <thead>
+                        <tr>
+                            <th>Teacher Name</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', loadHistory);
+
+        document.getElementById('attendanceForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById('teacherName').value;
+            const date = document.getElementById('attendanceDate').value;
+            const status = document.getElementById('status').value;
+
+            const attendance = {
+                name,
+                date,
+                status
+            };
+
+            let records = JSON.parse(localStorage.getItem('attendance')) || [];
+            records.push(attendance);
+            localStorage.setItem('attendance', JSON.stringify(records));
+
+            document.getElementById('attendanceForm').reset();
+            loadHistory();
+        });
+
+        function loadHistory() {
+            const tableBody = document.getElementById('attendanceTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '';
+
+            const records = JSON.parse(localStorage.getItem('attendance')) || [];
+
+            records.forEach((record, index) => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${record.name}</td>
+                    <td>${record.date}</td>
+                    <td>${record.status}</td>
+                    <td><button onclick="deleteRecord(${index})">Delete</button></td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        function deleteRecord(index) {
+            let records = JSON.parse(localStorage.getItem('attendance')) || [];
+            records.splice(index, 1);
+            localStorage.setItem('attendance', JSON.stringify(records));
+            loadHistory();
+        }
+
+        function showHistory() {
+            loadHistory();
+        }
+    </script>
+</body>
+
+</html>
